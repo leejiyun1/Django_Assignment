@@ -5,19 +5,6 @@ from django.urls import path, include
 from todo.views import todo_list, todo_info, todo_create, todo_update, todo_delete
 from users import views as user_views
 
-
-def user_list(request):
-    names = [{'id': key, 'name': value['이름']} for key, value in _db.items()]
-    return render(request, 'user_list.html', {'data': names})
-
-
-def user_info(request, user_id):
-    if user_id > len(_db):
-        raise Http404('User not found')
-    info = _db[user_id]
-    return render(request, 'user_info.html', {'data': info})
-
-
 urlpatterns = [
     path('todo/', todo_list, name='cbv_todo_list'),  # ❌ 이름이 잘못된 부분도 있음
     path('todo/create/', todo_create, name='todo_create'),
