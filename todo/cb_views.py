@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect, Http404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
+
+from todo.forms import TodoForm, TodoUpdateForm
 from todo.models import Todo, Comment
 
 
@@ -50,8 +52,9 @@ class TodoDetailView(LoginRequiredMixin, DetailView):
 
 class TodoCreateView(LoginRequiredMixin, CreateView):
     model = Todo
-    fields = ['title', 'description', 'start_date', 'end_date']
     template_name = 'todo/todo_create.html'
+    # 기존에 fields를 선언하여 form을 생성하던 방법에서 TodoForm을 불러와서 사용
+    form_class = TodoForm
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -65,8 +68,9 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Todo
-    fields = ['title', 'description', 'start_date', 'end_date', 'is_completed', 'id']
     template_name = 'todo/todo_update.html'
+    # 기존에 fields를 선언하여 form을 생성하던 방법에서 TodoForm을 불러와서 사용
+    form_class = TodoUpdateForm
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
