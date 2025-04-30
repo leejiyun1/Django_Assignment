@@ -9,18 +9,21 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import json
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+with open(BASE_DIR / '.secret_config' / 'secrets.json') as f:
+    config_secrets = (f.read())
 
+SECRET = json.loads(config_secrets)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2grpp2!)u^5!zy^jo7txv9+$5vj0d!w%s24ina4y803p!$ms6i'
+SECRET_KEY = SECRET['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -187,3 +190,6 @@ SUMMERNOTE_CONFIG = {
     # 첨부파일의 절대경로 URI 사용 설정
     'attachment_absolute_uri': True,
 }
+
+# auth
+AUTH_USER_MODEL = 'users.User'
