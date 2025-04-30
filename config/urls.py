@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.urls import path
 from fake_db import user_db
 from todo.views import todo_list, todo_info
+from users import views as user_views
 
 
 _db = user_db
@@ -28,4 +29,6 @@ urlpatterns = [
 
     path('todo/', todo_list, name='todo_list'), # 투두
     path('todo/<int:todo_id>/', todo_info, name='todo_info'), # 투두
+    path('accounts/login/', user_views.login, name='login'), # user
+    path('accounts/signup/', user_views.sign_up, name='signup'),# user
 ]
